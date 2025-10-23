@@ -1,0 +1,511 @@
+/* Animated Service Icons */
+.service-icon {
+  transition: transform 0.5s cubic-bezier(.68,-0.55,.27,1.55), filter 0.3s;
+  filter: drop-shadow(0 2px 12px #6c63ff99);
+  will-change: transform, filter;
+}
+.service-card:hover .service-icon {
+  transform: scale(1.18) rotate(-8deg);
+  filter: drop-shadow(0 4px 24px #6c63ffcc) brightness(1.2);
+}
+.service-icon-animate {
+  animation: icon-bounce 1.8s infinite cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-10px); }
+  40% { transform: translateY(0); }
+  60% { transform: translateY(-6px); }
+  80% { transform: translateY(0); }
+}
+/* Modern Navbar Styles */
+
+.navbar-glass {
+  background: rgba(44, 62, 80, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(108, 99, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 0 0 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(108,99,255,0.08);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+
+.navbar-link {
+  position: relative;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.75rem;
+  color: #e3e6fc;
+  font-weight: 600;
+  transition: color 0.2s, background 0.2s;
+}
+.navbar-link:hover, .navbar-link:focus {
+  color: #6c63ff;
+  background: rgba(108, 99, 255, 0.08);
+}
+.navbar-link .navbar-underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #6c63ff 0%, #48c6ef 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  border-radius: 2px;
+}
+.navbar-link:hover .navbar-underline, .navbar-link:focus .navbar-underline {
+  transform: scaleX(1);
+}
+
+
+.navbar-btn {
+  background: linear-gradient(90deg, #6c63ff 0%, #48c6ef 100%);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 1rem;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(108,99,255,0.12);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.navbar-btn:hover, .navbar-btn:focus {
+  background: #fff;
+  color: #6c63ff;
+  box-shadow: 0 4px 16px rgba(108,99,255,0.18);
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #6c63ff 0%, #48c6ef 100%);
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Typewriter cursor blink */
+.animate-blink {
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    border-color: transparent;
+  }
+}
+
+/* Animated gradient background for hero section */
+.animate-gradientMove {
+  background: linear-gradient(135deg, #6c63ff 0%, #48c6ef 100%);
+  background-size: 200% 200%;
+  animation: gradientMove 8s ease-in-out infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  h1 { font-size: 1.6rem; }
+  .container { padding-left: 1rem; padding-right: 1rem; }
+  .service-icon { transform-origin: center; }
+  .animate-gradientMove { background-position: center; }
+  video.object-cover { object-position: center; }
+}
+
+/* Tablet-specific (medium) devices: 769px - 1024px */
+@media (min-width: 720px) and (max-width: 1024px) {
+  /* iPad portrait and landscape adjustments */
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.6rem; }
+  .container { max-width: 980px; padding-left: 1.25rem; padding-right: 1.25rem; }
+  .testimonial-card, .card { padding: 1.25rem; }
+  /* Services: use two columns on tablet, slightly larger gaps */
+  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  /* Partners grid: 4 columns on tablet */
+  .partners-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+  /* Contact form stacks on tablets (single column) for better readability */
+  .contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  form.bg\[\#161b22\] { width: 100%; }
+  /* Adjust Lottie size on tablets */
+  .w-40 { width: 11rem; }
+  .h-40 { height: 11rem; }
+  .md\:w-56 { width: 14rem; }
+  .md\:h-56 { height: 14rem; }
+  /* Testimonial card min widths relaxed to fit horizontally on landscape */
+  .min-w-\[320px\] { min-width: 280px; }
+}
+
+/* Ensure media scales in their containers */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Enhanced Transparent Brands Section Styling */
+.brands-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.brand-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* No hover effects for brand cards; pseudo-element removed to keep CSS minimal */
+
+.brand-logo {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1) opacity(0.7);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/* Enhanced Responsive Design */
+@media (max-width: 475px) {
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .brand-card {
+    height: 3.5rem;
+    padding: 0.25rem;
+  }
+}
+
+@media (min-width: 476px) and (max-width: 640px) {
+  .brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+  .brand-card {
+    height: 4rem;
+    padding: 0.5rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .brands-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .brand-card {
+    height: 5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .brands-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+  .brand-card {
+    height: 5.5rem;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .brands-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+  }
+  .brand-card {
+    height: 6rem;
+  }
+}
+
+@media (min-width: 1281px) and (max-width: 1536px) {
+  .brands-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1.5rem;
+  }
+  .brand-card {
+    height: 6rem;
+  }
+}
+
+@media (min-width: 1537px) {
+  .brands-grid {
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1.5rem;
+  }
+  .brand-card {
+    height: 6rem;
+  }
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Ensure text doesn't overflow on small screens */
+  h1, h2, h3 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Improve touch targets */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1025px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Simple Horizontal Marquee */
+.marquee-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee-scroll 20s linear infinite;
+  gap: 1rem;
+  width: fit-content;
+}
+
+.marquee-image {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause on hover */
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Responsive Card Adjustments */
+@media (max-width: 640px) {
+  .horizontal-scroll-track {
+    gap: 0.75rem;
+    animation-duration: 45s;
+  }
+  
+  .event-card {
+    width: 240px;
+  }
+  
+  .card-inner {
+    height: 180px;
+  }
+  
+  .image-container {
+    height: 100px;
+  }
+  
+  .card-content {
+    padding: 10px;
+  }
+  
+  .title-text {
+    font-size: 13px;
+  }
+  
+  .event-date {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .horizontal-scroll-track {
+    gap: 1rem;
+    animation-duration: 50s;
+  }
+  
+  .event-card {
+    width: 260px;
+  }
+  
+  .card-inner {
+    height: 190px;
+  }
+  
+  .image-container {
+    height: 110px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .horizontal-scroll-track {
+    gap: 1.25rem;
+    animation-duration: 60s;
+  }
+  
+  .event-card {
+    width: 280px;
+  }
+  
+  .card-inner {
+    height: 200px;
+  }
+  
+  .image-container {
+    height: 120px;
+  }
+}
+
+/* Enhanced mobile experience */
+@media (max-width: 480px) {
+  .event-card {
+    width: 220px;
+  }
+  
+  .card-inner {
+    height: 160px;
+  }
+  
+  .image-container {
+    height: 90px;
+  }
+  
+  .horizontal-scroll-track {
+    gap: 0.5rem;
+    animation-duration: 40s;
+  }
+}
+
+@keyframes animate-marquee-ltr {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+
+/* Custom marquee viewport helpers */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  overflow-y: hidden; /* hide vertical scrollbar */
+}
+.no-scrollbar::-webkit-scrollbar {
+  height: 0; /* horizontal scrollbar height */
+  width: 0;  /* vertical scrollbar width */
+  background: transparent;
+}
+.no-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.no-scrollbar .flex { white-space: nowrap; }
+
+/* Targeted rule to hide the bottom scrollbar for the marquee viewport */
+#marqueeViewport.no-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+  overflow-y: hidden !important;
+}
+#marqueeViewport.no-scrollbar::-webkit-scrollbar {
+  height: 0 !important;
+  background: transparent !important;
+}
+#marqueeViewport.no-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent !important;
+}
+
+/* Additional helper in case some browsers still show a tiny bar */
+.marquee-viewport { padding-bottom: 1px; margin-bottom: -1px; }
+
+/* Extra wrapper to visually clip any remaining scrollbar */
+.marquee-clipper {
+  overflow: hidden !important;
+  position: relative;
+}
+.marquee-clipper > .marquee-viewport {
+  position: relative;
+  /* ensure the inner viewport still allows horizontal scroll */
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+
