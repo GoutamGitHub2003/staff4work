@@ -120,9 +120,10 @@ export default function App() {
 
     if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
       const templateParams = {
-        user_name: formData.name,
-        user_email: formData.email,
+        name: formData.name,
+        email: formData.email,
         message: formData.message,
+        to_email: formData.email,
       };
       try {
         await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
@@ -466,17 +467,13 @@ export default function App() {
                 key={brand.name}
                 data-aos="zoom-in"
                 data-aos-delay={index * 50}
-                className="group relative w-full h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24 bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 hover:border-[#58a6ff]/50 transition-all duration-300 flex items-center justify-center p-2 sm:p-3 md:p-4 hover:bg-white/15 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#58a6ff]/20"
+                className="relative w-full h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24 bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 transition-all duration-300 flex items-center justify-center p-2 sm:p-3 md:p-4"
               >
                 <img
                   src={brand.logo}
                   alt={`${brand.name} logo`}
-                  className="max-h-full max-w-full object-contain filter brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-300 opacity-70 group-hover:opacity-100"
+                  className="max-h-full max-w-full object-contain filter brightness-0 invert hover:brightness-100 hover:invert-0 transition-all duration-300"
                 />
-                {/* Tooltip on hover */}
-                <div className="absolute -top-8 sm:-top-10 left-1/2 transform -translate-x-1/2 bg-[#0d1117]/95 backdrop-blur-sm text-white text-xs px-2 sm:px-3 py-1 sm:py-2 rounded-md sm:rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap z-10 border border-white/20 shadow-lg">
-                  {brand.name}
-                </div>
               </div>
             ))}
           </div>
@@ -589,7 +586,7 @@ export default function App() {
       {/* About */}
       <section id="about" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-[#161b22] text-[#c9d1d9]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
-          <div data-aos="fade-right" className="space-y-4 sm:space-y-5 md:space-y-6 order-2 lg:order-1">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6 order-2 lg:order-1">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">About Us</h2>
             <p className="text-base sm:text-lg text-[#c9d1d9] leading-relaxed">
              A strong brand helps your business shine in a crowded market — it's what makes people recognize, remember, and trust you. When your brand identity is clear and consistent, it not only makes your products or services stand out but also builds the kind of credibility that keeps customers coming back and recommending you to others.
@@ -598,7 +595,7 @@ export default function App() {
                With our expert marketing strategies, we'll help you grow your business, reach the right audience, and establish a lasting presence in your industry — with a personalized approach designed for real results.
             </p>
           </div>
-          <div data-aos="fade-left" className="order-1 lg:order-2">
+          <div className="order-1 lg:order-2">
             <img
               src={aboutImage}
               alt="Professional team collaboration"
@@ -611,7 +608,7 @@ export default function App() {
       {/* Contact */}
       <section id="contact" className="py-16 sm:py-20 md:py-24 lg:py-32 bg-[#0d1117] text-[#c9d1d9]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
-          <div data-aos="fade-right" className="space-y-4 sm:space-y-5 md:space-y-6 order-2 lg:order-1">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6 order-2 lg:order-1">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">Get in Touch</h2>
             <p className="text-base sm:text-lg text-[#c9d1d9]">Ready to elevate your team? Fill out the form or reach us directly.</p>
             <div className="space-y-4 sm:space-y-5 md:space-y-6 text-base sm:text-lg">
@@ -631,7 +628,6 @@ export default function App() {
           </div>
           <form
             onSubmit={handleSubmit}
-            data-aos="fade-left"
             className="bg-[#161b22] p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl shadow-xl space-y-4 sm:space-y-5 md:space-y-6 border border-[#58a6ff]/20 order-1 lg:order-2"
           >
             {!isEmailJsConfigured && (
@@ -670,8 +666,8 @@ export default function App() {
               <p className="text-green-400 font-bold text-center text-sm sm:text-base">Message sent successfully! 🎉</p>
             )}
             {formStatus.error && (
-             // <p className="text-red-400 font-bold text-center text-sm sm:text-base">{formStatus.error}</p>
-             <p className="text-red-400 font-bold text-center text-sm sm:text-base">   Work in progress</p>
+              <p className="text-red-400 font-bold text-center text-sm sm:text-base">{formStatus.error}</p>
+             
             )}
             <button
               type="submit"
