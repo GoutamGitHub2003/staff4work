@@ -469,11 +469,13 @@ export default function App() {
                 data-aos-delay={index * 50}
                 className="relative w-full h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24 bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl border border-white/20 transition-all duration-300 flex items-center justify-center p-2 sm:p-3 md:p-4"
               >
-                <img
-                  src={brand.logo}
-                  alt={`${brand.name} logo`}
-                  className="max-h-full max-w-full object-contain filter brightness-0 invert hover:brightness-100 hover:invert-0 transition-all duration-300"
-                />
+                  <img
+                    src={brand.logo}
+                    alt={`${brand.name} logo`}
+                    className={
+                      `max-h-full max-w-full object-contain ${brand.name === 'GSK' ? '' : 'filter brightness-0 invert opacity-100'}`
+                    }
+                  />
               </div>
             ))}
           </div>
@@ -622,7 +624,7 @@ export default function App() {
               </div>
               <div className="flex items-start gap-3 sm:gap-4">
                 <HiOutlineLocationMarker className="text-xl sm:text-2xl text-[#58a6ff] flex-shrink-0 mt-1" />
-                <span>H No-99 Mohalla Shahwada Budhana Muzaffarnagar 251309</span>
+                <span>Block A Sector 4 Noida, Uttar Pradesh 201301</span>
               </div>
             </div>
           </div>
