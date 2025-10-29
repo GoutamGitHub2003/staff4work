@@ -61,16 +61,24 @@ const handleSmoothScroll = (e, id) => {
   }
 };
 
+// --- Custom Validation Functions ---
+// Basic email validation regex
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+// Basic phone validation (allows digits, spaces, hyphens, and parentheses, 7-15 characters)
+const PHONE_REGEX = /^[0-9\s-()]{7,15}$/; 
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [typedText, setTypedText] = useState("");
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "",phone:"", email: "", message: "" });
   const [formStatus, setFormStatus] = useState({
     loading: false,
     success: false,
     error: false,
   });
+  // New state to hold validation errors for specific fields
+  const [formErrors, setFormErrors] = useState({});
 
 
   // Import all images from a directory
@@ -101,18 +109,52 @@ export default function App() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear specific error on change
+    if (formErrors[name]) {
+        setFormErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
+  
+  // New validation logic function
+  const validateForm = (data) => {
+    let errors = {};
+    if (!data.name) errors.name = "Name is required.";
+    if (!data.email) {
+      errors.email = "Email is required.";
+    } else if (!EMAIL_REGEX.test(data.email)) {
+      errors.email = "Invalid email format.";
+    }
+    if (!data.phone) {
+      errors.phone = "Phone number is required.";
+    } else if (!PHONE_REGEX.test(data.phone)) {
+      errors.phone = "Invalid phone number (7-15 digits allowed).";
+    }
+    if (!data.message) errors.message = "Message is required.";
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus({ loading: true, success: false, error: false });
-    if (!formData.name || !formData.email || !formData.message) {
+    
+    // 1. Run Validation
+    const validationErrors = validateForm(formData);
+    setFormErrors(validationErrors);
+    
+    // 2. Check for ANY errors (including both required fields and format errors)
+    if (Object.keys(validationErrors).length > 0) {
+      // Aggregate all errors for the main status message (or just show the first one)
+      const firstError = Object.values(validationErrors)[0]; 
       setFormStatus({
         loading: false,
         success: false,
-        error: "Please fill in all fields.",
+        error: `Please correct the following: ${firstError}`,
       });
       return;
     }
+    
+    // If validation passes, proceed with submission
     // Use EmailJS when configured via environment variables (Vite)
     const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
@@ -121,6 +163,7 @@ export default function App() {
     if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
       const templateParams = {
         name: formData.name,
+        phone: formData.phone,
         email: formData.email,
         message: formData.message,
         to_email: formData.email,
@@ -128,7 +171,7 @@ export default function App() {
       try {
         await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
         setFormStatus({ loading: false, success: true, error: false });
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "",phone: "", email: "", message: "" });
       } catch (err) {
         console.error('EmailJS send error:', err);
         setFormStatus({ loading: false, success: false, error: "Failed to send via EmailJS. Try again." });
@@ -138,7 +181,7 @@ export default function App() {
       try {
         await new Promise((res) => setTimeout(res, 1500));
         setFormStatus({ loading: false, success: true, error: false });
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "",phone: "", email: "", message: "" });
       } catch {
         setFormStatus({ loading: false, success: false, error: "Failed to send. Try again." });
       }
@@ -637,33 +680,58 @@ export default function App() {
                  EmailJS not configured. To enable real email delivery, copy <code>.env.example</code> to <code>.env</code> and set your EmailJS keys, then restart the dev server. See https://www.emailjs.com/docs/ 
               </div>
             )}
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={formData.name}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl border border-[#c9d1d9]/20 bg-[#0d1117] text-[#c9d1d9] placeholder-[#c9d1d9] focus:ring-2 focus:ring-[#58a6ff] outline-none transition-colors duration-300 text-sm sm:text-base"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl border border-[#c9d1d9]/20 bg-[#0d1117] text-[#c9d1d9] placeholder-[#c9d1d9] focus:ring-2 focus:ring-[#58a6ff] outline-none transition-colors duration-300 text-sm sm:text-base"
-            />
-            <textarea
-              name="message"
-              placeholder="Message"
-              rows="4"
-              value={formData.message}
-              onChange={handleInputChange}
-              required
-              className="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl border border-[#c9d1d9]/20 bg-[#0d1117] text-[#c9d1d9] placeholder-[#c9d1d9] focus:ring-2 focus:ring-[#58a6ff] resize-none outline-none transition-colors duration-300 text-sm sm:text-base"
-            ></textarea>
+            <div>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                className={`w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl border ${formErrors.name ? 'border-red-500' : 'border-[#c9d1d9]/20'} bg-[#0d1117] text-[#c9d1d9] placeholder-[#c9d1d9] focus:ring-2 focus:ring-[#58a6ff] outline-none transition-colors duration-300 text-sm sm:text-base`}
+              />
+              {formErrors.name && <p className="text-red-400 text-xs mt-1 text-left">{formErrors.name}</p>}
+            </div>
+            
+            <div>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number (e.g., 9876543210)"
+                value={formData.phone}
+                onChange={handleInputChange}
+                required
+                className={`w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl border ${formErrors.phone ? 'border-red-500' : 'border-[#c9d1d9]/20'} bg-[#0d1117] text-[#c9d1d9] placeholder-[#c9d1d9] focus:ring-2 focus:ring-[#58a6ff] outline-none transition-colors duration-300 text-sm sm:text-base`}
+              />
+              {formErrors.phone && <p className="text-red-400 text-xs mt-1 text-left">{formErrors.phone}</p>}
+            </div>
+            
+            <div>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className={`w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl border ${formErrors.email ? 'border-red-500' : 'border-[#c9d1d9]/20'} bg-[#0d1117] text-[#c9d1d9] placeholder-[#c9d1d9] focus:ring-2 focus:ring-[#58a6ff] outline-none transition-colors duration-300 text-sm sm:text-base`}
+              />
+              {formErrors.email && <p className="text-red-400 text-xs mt-1 text-left">{formErrors.email}</p>}
+            </div>
+
+            <div>
+              <textarea
+                name="message"
+                placeholder="Message"
+                rows="4"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                className={`w-full px-4 sm:px-5 py-3 sm:py-4 rounded-lg sm:rounded-xl border ${formErrors.message ? 'border-red-500' : 'border-[#c9d1d9]/20'} bg-[#0d1117] text-[#c9d1d9] placeholder-[#c9d1d9] focus:ring-2 focus:ring-[#58a6ff] resize-none outline-none transition-colors duration-300 text-sm sm:text-base`}
+              ></textarea>
+              {formErrors.message && <p className="text-red-400 text-xs mt-1 text-left">{formErrors.message}</p>}
+            </div>
+            
             {formStatus.success && (
               <p className="text-green-400 font-bold text-center text-sm sm:text-base">Message sent successfully! 🎉</p>
             )}
